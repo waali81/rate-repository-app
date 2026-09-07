@@ -5,7 +5,7 @@ const App = () => {
   return ( 
     <>
       <StatusBar style="light" />
-      <Main />;
+      <Main />
     </>
   )
 };
