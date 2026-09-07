@@ -17,9 +17,9 @@ const styles = StyleSheet.create({
 const AppBar = () => {
   return (
     <View style={styles.container}>
-        <Pressable>
-            <Text style={styles.text}>Repositories</Text>
-        </Pressable>
+      <Pressable>
+        <Text style={styles.text}>Repositories</Text>
+      </Pressable>
     </View>
   )
 };
