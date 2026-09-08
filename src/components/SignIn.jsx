@@ -13,6 +13,9 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.textSecondary,
     padding: 10,
     borderRadius: 10,
+    fontFamily: theme.fonts.main,
+    fontSize: theme.fontSizes.body,
+    color: theme.colors.textPrimary,
   },
   passwordInput: {
     marginTop: 20,
