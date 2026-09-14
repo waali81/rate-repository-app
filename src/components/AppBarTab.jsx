@@ -1,6 +1,8 @@
 import { StyleSheet, View } from 'react-native';
 import Text from './Text';
 import { Link } from 'react-router-native';
+import useAuthStorage from '../hooks/useAuthStorage';
+import { useApolloClient } from '@apollo/client/react';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,14 +16,22 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBarTab = () => {
+const AppBarTab = ({me}) => {
+  const authStorage = useAuthStorage();
+  const apolloClient = useApolloClient();
+
+  const signOut = async () => {
+    await authStorage.removeAccessToken();
+    await apolloClient.resetStore();
+  };
+
   return (
     <View style={styles.container}>
       <Link to="/">
         <Text style={styles.text}>Repositories</Text>
       </Link>
-      <Link to="/signin">
-        <Text style={styles.text}>Sign in</Text>
+      <Link to={me ? '/' : '/signin'} onPress={me ? signOut : undefined}>
+        <Text style={styles.text}>{me ? 'Sign out' : 'Sign in'}</Text>
       </Link>
     </View>
   );
