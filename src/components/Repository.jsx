@@ -11,6 +11,7 @@ const Repository = () => {
 
   const { data, loading } = useQuery(GET_REPOSITORY, {
     variables: { id },
+    fetchPolicy: 'cache-and-network'
   });
 
   if (loading) {
