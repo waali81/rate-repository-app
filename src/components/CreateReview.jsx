@@ -10,6 +10,7 @@ import theme from '../theme';
 const styles = StyleSheet.create({
   container: {
     padding: 20,
+    backgroundColor: theme.colors.repositoryItemBackground,
   },
   input: {
     borderWidth: 2,

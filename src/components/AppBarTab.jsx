@@ -35,6 +35,11 @@ const AppBarTab = ({me}) => {
           <Text style={styles.text}>Create a review</Text>
         </Link>
       )}
+      {!me && (
+        <Link to="/signup">
+          <Text style={styles.text}>Sign up</Text>
+        </Link>
+      )}
       <Link to={me ? '/' : '/signin'} onPress={me ? signOut : undefined}>
         <Text style={styles.text}>{me ? 'Sign out' : 'Sign in'}</Text>
       </Link>
