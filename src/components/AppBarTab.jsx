@@ -1,6 +1,6 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Pressable } from 'react-native';
 import Text from './Text';
-import { Link } from 'react-router-native';
+import { Link, useNavigate } from 'react-router-native';
 import useAuthStorage from '../hooks/useAuthStorage';
 import { useApolloClient } from '@apollo/client/react';
 
@@ -19,10 +19,12 @@ const styles = StyleSheet.create({
 const AppBarTab = ({me}) => {
   const authStorage = useAuthStorage();
   const apolloClient = useApolloClient();
+  const navigate = useNavigate();
 
   const signOut = async () => {
     await authStorage.removeAccessToken();
     await apolloClient.resetStore();
+    navigate('/');
   };
 
   return (
@@ -35,14 +37,25 @@ const AppBarTab = ({me}) => {
           <Text style={styles.text}>Create a review</Text>
         </Link>
       )}
+      {me && (
+        <Link to="/myreviews">
+          <Text style={styles.text}>My reviews</Text>
+        </Link>
+      )}
       {!me && (
         <Link to="/signup">
           <Text style={styles.text}>Sign up</Text>
         </Link>
       )}
-      <Link to={me ? '/' : '/signin'} onPress={me ? signOut : undefined}>
-        <Text style={styles.text}>{me ? 'Sign out' : 'Sign in'}</Text>
-      </Link>
+      {me ? (
+        <Pressable onPress={signOut}>
+          <Text style={styles.text}>Sign out</Text>
+        </Pressable>
+      ) : (
+        <Link to="/signin">
+          <Text style={styles.text}>Sign in</Text>
+        </Link>
+      )}
     </View>
   );
 };
