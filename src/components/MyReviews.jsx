@@ -21,6 +21,7 @@ const MyReviews = () => {
   return (
     <FlatList
       data={reviews}
+      contentContainerStyle={{ paddingTop: 10 }}
       renderItem={({ item }) => <ReviewItem review={item} showRepository />}
       keyExtractor={({ id }) => id}
       ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
