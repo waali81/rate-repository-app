@@ -1,7 +1,8 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import { format } from 'date-fns';
 import theme from '../theme';
 import Text from './Text';
+import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,10 +27,30 @@ const styles = StyleSheet.create({
   },
   reviewText: {
     marginLeft: 60,
-},
+  },
+  actions: {
+    flexDirection: 'row',
+    marginTop: 10,
+    justifyContent: 'center',
+  },
+  button: {
+    backgroundColor: theme.colors.primary,
+    padding: 10,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  deleteButton: {
+    backgroundColor: theme.colors.error,
+  },
 });
 
-const ReviewItem = ({ review, showRepository = false  }) => {
+const ReviewItem = ({
+  review,
+  showRepository = false,
+  showActions = false,
+  onDelete,
+}) => {
+  const navigate = useNavigate();
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -48,6 +69,21 @@ const ReviewItem = ({ review, showRepository = false  }) => {
       <View style={styles.reviewText}>
         <Text>{review.text}</Text>
       </View>
+
+      {showActions && (
+        <View style={styles.actions}>
+          <Pressable
+            style={styles.button}
+            onPress={() => navigate(`/repositories/${review.repository.id}`)}
+          >
+            <Text color="white" fontWeight="bold">View repository</Text>
+          </Pressable>
+
+          <Pressable style={[styles.button, styles.deleteButton]} onPress={onDelete}>
+            <Text color="white" fontWeight="bold">Delete review</Text>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 };
