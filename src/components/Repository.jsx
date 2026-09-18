@@ -9,12 +9,28 @@ import Text from './Text';
 const Repository = () => {
   const { id } = useParams();
 
-  const { data, loading } = useQuery(GET_REPOSITORY, {
+  const { data, loading, fetchMore } = useQuery(GET_REPOSITORY, {
     variables: { id },
     fetchPolicy: 'cache-and-network'
   });
 
-  if (loading) {
+  const handleFetchMore = () => {
+    const canFetchMore =
+      !loading && data?.repository.reviews.pageInfo.hasNextPage;
+
+    if (!canFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        id,
+        after: data.repository.reviews.pageInfo.endCursor,
+      },
+    });
+  };
+
+  if (!data) {
     return <Text>Loading...</Text>;
   }
 
@@ -26,6 +42,7 @@ const Repository = () => {
       renderItem={({ item }) => <ReviewItem review={item} />}
       keyExtractor={({ id }) => id}
       ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+      onEndReached={handleFetchMore}
       ListHeaderComponentStyle={{ marginBottom: 10 }}
       ListHeaderComponent={() => (
         <RepositoryItem
