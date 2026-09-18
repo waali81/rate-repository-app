@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { TextInput, Pressable, StyleSheet, View } from 'react-native';
-import { CREATE_REVIEW } from '../graphql/queries';
+import { CREATE_REVIEW, GET_CURRENT_USER } from '../graphql/queries';
 import { useMutation } from '@apollo/client/react';
 import Text from './Text';
 import { useNavigate } from 'react-router-native';
@@ -72,10 +72,17 @@ const CreateReview = () => {
             repositoryName: values.repositoryName,
             rating: Number(values.rating),
             text: values.text,
-         },
+          },
         },
+        refetchQueries: [
+          {
+            query: GET_CURRENT_USER,
+            variables: {
+              includeReviews: true,
+            },
+          },
+        ],
       });
-
       navigate(`/repositories/${data.createReview.repositoryId}`);
     },
   });
