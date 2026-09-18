@@ -4,7 +4,7 @@ This application was developed as part of the Full Stack Open course, part 10.
 
 ## QR code
 
-![QR code](./QR-code.png)
+![QR code](./QR-Code.png)
 
 ## TroubleShooting
 
